@@ -20,17 +20,18 @@ import javax.validation.constraints.Size;
 import com.springboot.backend.apirest.utils.Constants;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Data
+@Builder(toBuilder = true)
+@RequiredArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 @Table(name="categories")
 public class Category implements Serializable {
 	
