@@ -48,7 +48,7 @@ public class Category implements Serializable {
 	@NotEmpty(message = Constants.NOT_EMPTY)
 	@Size(min = 4, max = 100)
 	@Column(length = 100, nullable = false)
-	@Pattern(regexp = "[A-Za-z0-9\\\\s-]+$", message="El nombre debe ser alphanumerico y solo permite, guion baso y medio ")
+	@Pattern(regexp = "^[A-Za-z0-9\\\\s_-]+$", message="El nombre debe ser alphanumerico y solo permite, guion bajo y medio ")
     public String name;
 	public String groupCategory;
 	
