@@ -1,0 +1,45 @@
+version: '3.3'
+
+services:
+    #service 1: definition of mysql database
+    db:
+      image: mysql:8.0.19
+      container_name: mysql-db2   
+      environment:
+        - MYSQL_USER=mukit
+        - MYSQL_ROOT_PASSWORD=mukit
+        - MYSQL_ALLOW_EMPTY_PASSWORD
+        - MYSQL_RANDOM_ROOT_PASSWORD
+      ports:
+        - "3306:3306"
+      restart: always
+    
+    #service 2: definition of phpMyAdmin
+    phpmyadmin:
+      image: phpmyadmin/phpmyadmin:latest
+      container_name: my-php-myadmin
+      ports:
+        - "8082:80"
+      restart: always
+      depends_on:
+        - db
+      environment:
+        SPRING_DATASOURCE_USERNAME: mukit
+        SPRING_DATASOURCE_PASSWORD: mukit
+    
+    #service 3: definition of your spring-boot app 
+    customerservice:                        #it is just a name, which will be used only in this file.
+      image: customer-service               #name of the image after dockerfile executes
+      container_name: customer-service-app  #name of the container created from docker image
+      build:
+        context: .                          #docker file path (. means root directory)
+        dockerfile: Dockerfile              #docker file name
+      ports:
+        - "8084:8084"                       #docker containter port with your os port
+      restart: always
+      depends_on:                           #define dependencies of this app
+        - db                                #dependency name (which is defined with this name 'db' in this file earlier)
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db2:3306/customer?createDatabaseIfNotExist=true
+        SPRING_DATASOURCE_USERNAME: root
+        SPRING_DATASOURCE_PASSWORD: mukit
